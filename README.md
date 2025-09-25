@@ -9,7 +9,7 @@ struct Student {
 };
 
 struct Student students[100];
-int n = 0; 
+int n = 0;
 int isSorted = 0;
 
 void insertStudent();
@@ -151,7 +151,7 @@ void updateStudent() {
     int rollNo, choice, found = -1;
     printf("\nEnter Roll Number of the student to update: ");
     scanf("%d", &rollNo);
-    
+
     for (int i = 0; i < n; i++) {
         if (students[i].rollNo == rollNo) {
             found = i;
@@ -200,14 +200,14 @@ void filterStudents() {
     printf("--------------------------------------------------\n");
     printf("%-10s %-20s %-10s\n", "Roll No", "Name", "Marks");
     printf("--------------------------------------------------\n");
-    
+
     for (int i = 0; i < n; i++) {
         if (students[i].marks >= minMarks) {
             printf("%-10d %-20s %-10.2f\n", students[i].rollNo, students[i].name, students[i].marks);
             count++;
         }
     }
-    
+
     if (count == 0) {
         printf("No students found with marks >= %.2f\n", minMarks);
     }
@@ -311,11 +311,14 @@ void binarySearch() {
 }
 
 void interpolationSearch() {
-    if (n == 0) { printf("No data to search.\n"); return; }
+    if (n == 0) {
+        printf("No data to search.\n");
+        return;
+    }
     int rollNo;
     printf("Enter Roll Number to search: ");
     scanf("%d", &rollNo);
-    
+
     int lo = 0, hi = (n - 1);
     while (lo <= hi && rollNo >= students[lo].rollNo && rollNo <= students[hi].rollNo) {
         if (lo == hi) {
@@ -326,7 +329,10 @@ void interpolationSearch() {
             }
             break;
         }
-        int pos = lo + (((double)(hi - lo) / (students[hi].rollNo - students[lo].rollNo)) * (rollNo - students[lo].rollNo));
+        
+        // Corrected line with explicit cast to silence the warning
+        int pos = lo + (int)(((double)(hi - lo) / (students[hi].rollNo - students[lo].rollNo)) * (rollNo - students[lo].rollNo));
+
         if (students[pos].rollNo == rollNo) {
              printf("\n--- Student Found! ---\n");
              printf("Roll No: %d\nName: %s\nMarks: %.2f\n", students[pos].rollNo, students[pos].name, students[pos].marks);
